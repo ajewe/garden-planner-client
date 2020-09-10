@@ -35,26 +35,78 @@ const Box = props => {
   );
 }
 
-const Line = () => {
-  const { camera, gl } = useThree();
-  const [ ref, object ] = useResource();
-  const points = useMemo(() => [new THREE.Vector3(-10, 0, 0), new THREE.Vector3(0, 10, 0), new THREE.Vector3(10, 0, 0)], [])
-  const onUpdate = useCallback(self => self.setFromPoints(points), [points])
-  console.log(points)
+const Grid = () => {
+  let size = 10;
+  let divisions = 10;
+  let gridHelper = new THREE.GridHelper(size, divisions);
 
   return (
     <>
-      <line position={[0, -2.5, -10]} ref={ref}>
-        <bufferGeometry attach="geometry" onUpdate={onUpdate} />
-        <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-      </line>
+      <gridHelper />
     </>
   );
 }
 
+// const Grid = () => {
+//   const { camera, gl } = useThree();
+//   const [ ref, object ] = useResource();
+//   const pointsHoriz = useMemo(() => [new THREE.Vector3(-0.5, 0, 0), new THREE.Vector3(0.5, 0, 0)], [])
+//   const pointsVert = useMemo(() => [new THREE.Vector3(0, 0, -0.5), new THREE.Vector3(0, 0, 0.5)], [])
+//   const onHorizUpdate = useCallback(self => self.setFromPoints(pointsHoriz), [pointsHoriz])
+//   const onVertUpdate = useCallback(self => self.setFromPoints(pointsVert), [pointsVert])
+
+//   return (
+//     <>
+//       <line position={[0, 0, -0.1]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0, 0, -0.2]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0, 0, -0.3]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0, 0, 0]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0, 0, 0]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onVertUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0, 0, 0.1]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0.1, 0, 0]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onVertUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0, 0, 0.2]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0.2, 0, 0]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onVertUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0, 0, 0.3]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//       <line position={[0.3, 0, 0]} ref={ref}>
+//         <bufferGeometry attach="geometry" onUpdate={ onVertUpdate } />
+//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
+//       </line>
+//     </>
+//   );
+// }
+
 const Yard = () => {
   const gltf = useLoader(GLTFLoader, yard);
-  // gltf.scale(0.2, 0.2, 0.2)
   console.log(1, gltf);
   useEffect(() => {
     function updateMaterial() {
@@ -84,7 +136,7 @@ export const FullGardenView = props => {
       <ambientLight />
       <pointLight intensity={0.1} position={[10, 200, 0]} />
       <Suspense fallback={ <Box position={ [0, 0, 0] }/> }>
-        <Line />
+        <Grid />
         <Yard />
       </Suspense>
     </Canvas>
