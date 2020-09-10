@@ -35,76 +35,6 @@ const Box = props => {
   );
 }
 
-const Grid = () => {
-  let size = 10;
-  let divisions = 10;
-  let gridHelper = new THREE.GridHelper(size, divisions);
-
-  return (
-    <>
-      <gridHelper />
-    </>
-  );
-}
-
-// const Grid = () => {
-//   const { camera, gl } = useThree();
-//   const [ ref, object ] = useResource();
-//   const pointsHoriz = useMemo(() => [new THREE.Vector3(-0.5, 0, 0), new THREE.Vector3(0.5, 0, 0)], [])
-//   const pointsVert = useMemo(() => [new THREE.Vector3(0, 0, -0.5), new THREE.Vector3(0, 0, 0.5)], [])
-//   const onHorizUpdate = useCallback(self => self.setFromPoints(pointsHoriz), [pointsHoriz])
-//   const onVertUpdate = useCallback(self => self.setFromPoints(pointsVert), [pointsVert])
-
-//   return (
-//     <>
-//       <line position={[0, 0, -0.1]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0, 0, -0.2]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0, 0, -0.3]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0, 0, 0]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0, 0, 0]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onVertUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0, 0, 0.1]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0.1, 0, 0]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onVertUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0, 0, 0.2]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0.2, 0, 0]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onVertUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0, 0, 0.3]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onHorizUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//       <line position={[0.3, 0, 0]} ref={ref}>
-//         <bufferGeometry attach="geometry" onUpdate={ onVertUpdate } />
-//         <lineBasicMaterial attach="material" color={'#9c88ff'} linewidth={10} linecap={'round'} linejoin={'round'} />
-//       </line>
-//     </>
-//   );
-// }
-
 const Yard = () => {
   const gltf = useLoader(GLTFLoader, yard);
   console.log(1, gltf);
@@ -114,13 +44,13 @@ const Yard = () => {
       //   // this is just an example - not every child might be a mesh
       //   child.material = new THREE.MeshBasicMaterial({ color: "#c40000" });
       // });
-      gltf.scene.children[2].scale.x = 0.2
-      gltf.scene.children[2].scale.y = 0.2
-      gltf.scene.children[2].scale.z = 0.2
+      gltf.scene.children[2].scale.x = 0.5
+      gltf.scene.children[2].scale.y = 0.5
+      gltf.scene.children[2].scale.z = 0.5
     }
     updateMaterial();
   });
-   return <primitive object={gltf.scene} position={[0, 0, 0]} />
+   return <primitive object={gltf.scene} position={[0, -0.02, 0]} />
 }
 
 export const FullGardenView = props => {
@@ -136,8 +66,8 @@ export const FullGardenView = props => {
       <ambientLight />
       <pointLight intensity={0.1} position={[10, 200, 0]} />
       <Suspense fallback={ <Box position={ [0, 0, 0] }/> }>
-        <Grid />
-        <Yard />
+          <Yard />
+          <gridHelper args={[ 2, 10 ]} />
       </Suspense>
     </Canvas>
   );
