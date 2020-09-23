@@ -1,4 +1,4 @@
-import React, { useRef, useState, useDispatch, useEffect, useMemo, useCallback, Suspense } from 'react';
+import React, { useRef, useState, useDispatch, useEffect, Suspense } from 'react';
 import * as THREE from "three";
 import { useSelector } from 'react-redux';
 import { Canvas, useFrame, useLoader, useThree, useResource, extend } from 'react-three-fiber';
@@ -16,9 +16,10 @@ const Controls = props => {
   return <orbitControls ref={ref} args={[camera, gl.domElement]} {...props} />;
 };
 
-const Yard = () => {
-  const gltf = useLoader(GLTFLoader, yard);
-  // console.log(1, gltf);
+const Yard = ({ url, addBox }) => {
+  const gltf = useLoader(GLTFLoader, url);
+  const [hovered, setHover] = useState(false);
+
   useEffect(() => {
     function updateMaterial() {
       // gltf.scene.children[0].children[0].children.forEach(child => {
@@ -31,23 +32,51 @@ const Yard = () => {
     }
     updateMaterial();
   });
-   return <primitive object={gltf.scene} position={[0, -0.02, 0]} />
+  
+  return (
+    <group
+      onPointerOver={ e => setHover(true) }
+      onPointerOut={ e => setHover(false) }
+      onPointerDown={ e => {
+        e.stopPropagation();
+        //you may optionally capture the target
+        console.log('addBox', e.point.x, e.point.z)
+        addBox({ x: e.point.x, y: e.point.y, z: e.point.z }) }}>
+      <primitive object={gltf.scene} position={[0, -0.02, 0]}/>
+    </group>)
 }
 
 export const FullGardenView = props => {
+
   let gardenDimensions = useSelector( state => state.garden.dimensions)
   let sceneObjects = useSelector( state => state.garden.sceneObjects)
   // sceneObjects.map((obj) => console.log(obj.objectType))
-  const [ isClicked, setIsClicked ] = useState(false)
-  const [ gardenObjects, setGardenObjects ] = useState({})
+  // const [ isClicked, setIsClicked ] = useState(false)
+  // const [ gardenObjects, setGardenObjects ] = useState({})
   // const [ clickLocation, setClickLocation ] = useState({
   //     clientX: 0,
   //     clientY: 0,
   //   })
-  const handleDblClick = e => {
-    e.stopPropagation();
-    setIsClicked(true);
-    console.log(isClicked);
+  // const handleDblClick = e => {
+  //   e.stopPropagation();
+  //   setIsClicked(true);
+  //   console.log(isClicked);
+  // }
+  const [ boxes, setBoxes ] = useState([
+    {
+      objectType: 'box',
+      positionX: 0,
+      positionY: 0.1,
+    }
+  ])
+  const addBox = box => {
+    console.log(box)
+    setBoxes( boxes => [ ...boxes, {
+      objectType: 'box',
+      positionX: box.x,
+      positionY: box.y + 0.1,
+      positionZ: box.z,
+    }]);
   }
 
   return (
@@ -56,13 +85,12 @@ export const FullGardenView = props => {
         enablePan={true}
         enableZoom={true}
         enableDamping
-        dampingFactor={0.5}
-      />
+        dampingFactor={0.5} />
       <ambientLight />
       <pointLight intensity={0.1} position={[10, 200, 0]} />
-      <Suspense fallback={ <Box position={ [0, 0, 0] }/> }>
-          <Yard />
-          <gridHelper args={[ 2, 10 ]} onDoubleClick={(e) => {
+      <Suspense fallback={ null } >
+          <Yard url={ yard } addBox={ addBox } />
+          {/* <gridHelper args={[ 2, 10 ]} onDoubleClick={(e) => {
             // let newClickObject = gardenObjects
             // newClickObject.object = "box"
             // newClickObject.positionX = e.nativeEvent.clientX
@@ -70,11 +98,11 @@ export const FullGardenView = props => {
             // setGardenObjects(newClickObject)
             // console.log(gardenObjects)
             handleDblClick(e)
-          }}/>
-          {sceneObjects.length ? 
-            sceneObjects.map((obj, i) => {
+          }}/> */}
+          {boxes.length ? 
+            boxes.map((obj, i) => {
               return (
-                <Box position={ [obj.positionX, obj.positionY, 0] }/>
+                <Box position={ [ obj.positionX, obj.positionY, obj.positionZ ] }/>
               )
             })
             : console.log('nooooo')}
