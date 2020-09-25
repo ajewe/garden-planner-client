@@ -56,20 +56,6 @@ export const Yard = () => {
       { yardSquares.map( (square, i) => {
         return <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ square.x, square.y, square.z ] } />
       })}
-
-      {/* <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ 0, 0, 0 ] } /> */}
-      {/* <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ 0, 0, 0.446 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ 0, 0, 0.892 ] }/> */}
-      {/* <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ -0.162, 0, 0 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ 0.97, 0, 0 ] } />
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ -0.97, 0, 0 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ 1.455, 0, 0 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ -1.455, 0, 0 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ 1.94, 0, 0 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ -1.94, 0, 0 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ 2.425, 0, 0 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ -2.425, 0, 0 ] }/>
-      <EachYardSquare gltf={ gltf } addBox={ addBox } position={ [ 2.91, 0, 0 ] }/> */}
     </>
   );
 }
@@ -78,21 +64,9 @@ const EachYardSquare = React.memo(({ gltf, addBox, position }) => {
   // const gltf = useLoader(GLTFLoader, url);
   const [hovered, setHover] = useState(false);
 
-  useEffect(() => {
-    function updateMaterial() {
-      // gltf.scene.children[0].children[0].children.forEach(child => {
-      //   // this is just an example - not every child might be a mesh
-      //   child.material = new THREE.MeshBasicMaterial({ color: "#c40000" });
-      // });
-      gltf.scene.children[2].scale.x = 0.15
-      gltf.scene.children[2].scale.y = 0.55
-      gltf.scene.children[2].scale.z = 0.15
-    }
-    updateMaterial();
-  });
-  
   return (
     <group
+      scale={[ 0.15, 0.55, 0.15 ]}
       position={ position }
       onPointerOver={ e => setHover(true) }
       onPointerOut={ e => setHover(false) }
