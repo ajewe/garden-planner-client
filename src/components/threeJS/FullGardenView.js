@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Canvas, useFrame, useLoader, useThree, useResource, extend } from 'react-three-fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import yard from '../../3d/yard.glb'
+import { Yard } from './Yard'
 import { Box } from './Box'
 
 extend({ OrbitControls });
@@ -15,36 +15,6 @@ const Controls = props => {
   useFrame(() => ref.current.update());
   return <orbitControls ref={ref} args={[camera, gl.domElement]} {...props} />;
 };
-
-const Yard = ({ url, addBox }) => {
-  const gltf = useLoader(GLTFLoader, url);
-  const [hovered, setHover] = useState(false);
-
-  useEffect(() => {
-    function updateMaterial() {
-      // gltf.scene.children[0].children[0].children.forEach(child => {
-      //   // this is just an example - not every child might be a mesh
-      //   child.material = new THREE.MeshBasicMaterial({ color: "#c40000" });
-      // });
-      gltf.scene.children[2].scale.x = 0.5
-      gltf.scene.children[2].scale.y = 0.5
-      gltf.scene.children[2].scale.z = 0.5
-    }
-    updateMaterial();
-  });
-  
-  return (
-    <group
-      onPointerOver={ e => setHover(true) }
-      onPointerOut={ e => setHover(false) }
-      onPointerDown={ e => {
-        e.stopPropagation();
-        //you may optionally capture the target
-        console.log('addBox', e.point.x, e.point.z)
-        addBox({ x: e.point.x, y: e.point.y, z: e.point.z }) }}>
-      <primitive object={gltf.scene} position={[0, -0.02, 0]}/>
-    </group>)
-}
 
 export const FullGardenView = props => {
 
@@ -62,22 +32,6 @@ export const FullGardenView = props => {
   //   setIsClicked(true);
   //   console.log(isClicked);
   // }
-  const [ boxes, setBoxes ] = useState([
-    {
-      objectType: 'box',
-      positionX: 0,
-      positionY: 0.1,
-    }
-  ])
-  const addBox = box => {
-    console.log(box)
-    setBoxes( boxes => [ ...boxes, {
-      objectType: 'box',
-      positionX: box.x,
-      positionY: box.y + 0.1,
-      positionZ: box.z,
-    }]);
-  }
 
   return (
     <Canvas camera={{ position: [1, 0.75, 1] }}>
@@ -89,7 +43,8 @@ export const FullGardenView = props => {
       <ambientLight />
       <pointLight intensity={0.1} position={[10, 200, 0]} />
       <Suspense fallback={ null } >
-          <Yard url={ yard } addBox={ addBox } />
+          <Yard />
+                                                                                                                
           {/* <gridHelper args={[ 2, 10 ]} onDoubleClick={(e) => {
             // let newClickObject = gardenObjects
             // newClickObject.object = "box"
@@ -99,13 +54,13 @@ export const FullGardenView = props => {
             // console.log(gardenObjects)
             handleDblClick(e)
           }}/> */}
-          {boxes.length ? 
+          {/* {boxes.length ? 
             boxes.map((obj, i) => {
               return (
                 <Box position={ [ obj.positionX, obj.positionY, obj.positionZ ] }/>
               )
             })
-            : console.log('nooooo')}
+            : console.log('nooooo')} */}
           {/* {gardenObjects.object === 'box' ? console.log('yo') : console.log('no')} */}
           {/* {gardenObjects.object === 'box' && <Box position={ [0, 0, 0] }/>} */}
           {/* <Box position={ [(369 / window.innerWidth) * 2 - 1, 0.1, 0] }/> */}

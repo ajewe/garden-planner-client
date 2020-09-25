@@ -8,7 +8,7 @@ export default {
       {
         objectType : 'box',
         positionX: 0,
-        positionY: 0.1,
+        positionY: 1,
       },
     ]
   }
