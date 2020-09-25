@@ -34,7 +34,7 @@ export const FullGardenView = props => {
   // }
 
   return (
-    <Canvas camera={{ position: [1, 0.75, 1] }}>
+    <Canvas camera={{ position: [ 7, 3, 7 ] }}>
       <Controls
         enablePan={true}
         enableZoom={true}
