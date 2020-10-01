@@ -1,10 +1,10 @@
 import React from 'react';
-import { FullGardenView } from './threeJS/FullGardenView'
+import { Scene } from './threeJS/Scene';
 
 export const Main = () => {
   return (
     <div style={{width: '100%', height: '100%'}}>
-      <FullGardenView />
+      <Scene />
     </div>
   );
 }

@@ -8,14 +8,14 @@ export const Box = props => {
   
   return (
     <mesh
-      {...props}
-      ref={mesh}
-      scale={[0.2, 0.2, 0.2]}
-      onClick={(e) => setActive(!active)}
-      onPointerOver={(e) => setHover(true)}
-      onPointerOut={(e) => setHover(false)}>
-      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
-      <meshStandardMaterial attach="material" color={hovered ? 'hotpink' : 'orange'} />
+      { ...props }
+      ref={ mesh }
+      scale={ [0.49, 0.45, 0.46] }
+      onClick={ (e) => setActive(!active) }
+      onPointerOver={ (e) => setHover(true) }
+      onPointerOut={ (e) => setHover(false) }>
+      <boxBufferGeometry attach="geometry" args={ [1, 1, 1] } />
+      <meshStandardMaterial attach="material" color={ hovered ? 'hotpink' : 'orange' } />
     </mesh>
   );
 }
