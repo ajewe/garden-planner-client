@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLoader } from 'react-three-fiber';
+import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import yard from '../../3d/yard.glb';
+import yard from '../../models/yard.glb';
 
 const objectScale = {
   x: 0.15,

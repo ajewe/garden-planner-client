@@ -1,9 +1,6 @@
-import React, { useRef, useState, useDispatch, useEffect, Suspense } from 'react';
-import * as THREE from "three";
-import { useSelector } from 'react-redux';
-import { useFrame, useLoader, useThree, useResource, extend, Renderer } from 'react-three-fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { useRef, useState, Suspense } from 'react';
+import { useThree, useFrame, extend } from '@react-three/fiber'
+import { OrbitControls } from 'three-stdlib'
 import { Yard } from './Yard'
 import { Box } from './Box'
 
