@@ -7,7 +7,6 @@ export const Main = () => {
       <div style={{width: '100%', height: '90%'}}>
         <Scene />
       </div>
-      <div>hello</div>
     </>
   );
 }
